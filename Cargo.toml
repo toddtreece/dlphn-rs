@@ -1,6 +1,6 @@
 [package]
 name = "dlphn"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Todd Treece <todd@uniontownlabs.org>"]
 description = "a humble data logger."
 documentation = "https://docs.rs/mqtt-packet"
