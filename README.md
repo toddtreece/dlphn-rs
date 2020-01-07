@@ -1,4 +1,4 @@
-# dolphin-rs
+# dlphn-rs
 
 a humble service that remembers data you send it. cause [it's smart][dolphin] and stuff.
 
@@ -7,13 +7,13 @@ a humble service that remembers data you send it. cause [it's smart][dolphin] an
 use [rustup] to install the rust toolchain, and then run:
 
 ```sh
-$ cargo install dolphin
+$ cargo install dlphn
 ```
 
 ## run
 
 ```sh
-$ dolphin
+$ dlphn
 
                      ▄▄▄▄▄
                     ▐█████████████▄▄
@@ -43,8 +43,8 @@ $ dolphin
           ▀
                                          dolphin-rs
  
-[dolphin] listening on 127.0.0.1:8080
-[dolphin] API docs available at: http://127.0.0.1:8080/api/v1/docs
+[dlphn] listening on 127.0.0.1:8080
+[dlphn] API docs available at: http://127.0.0.1:8080/api/v1/docs
 ```
 
 [dolphin]: https://www.nationalgeographic.com/news/2013/8/130806-dolphins-memories-animals-science-longest/

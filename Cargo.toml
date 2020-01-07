@@ -1,5 +1,5 @@
 [package]
-name = "dolphin"
+name = "dlphn"
 version = "0.1.0"
 authors = ["Todd Treece <todd@uniontownlabs.org>"]
 description = "a humble data logger."
