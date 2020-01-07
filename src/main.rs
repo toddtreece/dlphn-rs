@@ -9,6 +9,16 @@ use serde_json;
 mod db;
 use db::Pool;
 
+async fn list_streams(db: web::Data<Pool>) -> Result<HttpResponse, WebError> {
+  let pool = db.clone();
+
+  let result = web::block(move || db::list_streams(pool.get()?))
+    .map_err(WebError::from)
+    .await?;
+
+  Ok(HttpResponse::Ok().json(result))
+}
+
 async fn list_data(
   db: web::Data<Pool>,
   path: web::Path<(String)>,
@@ -49,6 +59,7 @@ async fn main() -> io::Result<()> {
     App::new()
       .data(pool.clone())
       .service(fs::Files::new("/api/v1/docs", "docs").index_file("index.html"))
+      .service(web::resource("/api/v1/streams").route(web::get().to(list_streams)))
       .service(
         web::resource("/api/v1/streams/{key}/data")
           .route(web::get().to(list_data))

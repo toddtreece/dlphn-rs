@@ -2,7 +2,7 @@ use chrono::{DateTime, Utc};
 use failure::Error;
 use r2d2;
 use r2d2_sqlite;
-use rusqlite::ToSql;
+use rusqlite::{ToSql, NO_PARAMS};
 use serde_derive::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -44,6 +44,23 @@ pub fn create_table(conn: Connection) -> Result<(), Error> {
   )?;
 
   Ok(())
+}
+
+pub fn list_streams(conn: Connection) -> Result<Vec<Stream>, Error> {
+  let mut stmt = conn.prepare("SELECT id, key, created, updated FROM streams")?;
+
+  let results = stmt
+    .query_map(NO_PARAMS, |row| {
+      Ok(Stream {
+        id: row.get(0)?,
+        key: row.get(1)?,
+        created: row.get(2)?,
+        updated: row.get(3)?,
+      })
+    })
+    .and_then(|mapped_rows| Ok(mapped_rows.map(|row| row.unwrap()).collect::<Vec<Stream>>()))?;
+
+  Ok(results)
 }
 
 pub fn list_data(conn: Connection, key: String) -> Result<Vec<Data>, Error> {
