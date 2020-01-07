@@ -1,12 +1,13 @@
-use std::io;
-
 use actix_files as fs;
 use actix_web::{web, App, Error as WebError, HttpResponse, HttpServer};
 use futures::TryFutureExt;
+use local_ip;
 use r2d2_sqlite::{self, SqliteConnectionManager};
 use serde_json;
+use std::io;
 
 mod db;
+mod dolphin;
 use db::Pool;
 
 async fn list_streams(db: web::Data<Pool>) -> Result<HttpResponse, WebError> {
@@ -55,6 +56,13 @@ async fn main() -> io::Result<()> {
   db::create_table(pool.get().unwrap()).unwrap();
 
   // Start http server
+  dolphin::logo();
+  let ip = local_ip::get().unwrap();
+  println!("[dolphin] listening on {}:8080", ip.to_string());
+  println!(
+    "[dolphin] API docs available at: http://{}:8080/api/v1/docs",
+    ip.to_string()
+  );
   HttpServer::new(move || {
     App::new()
       .data(pool.clone())
@@ -66,7 +74,7 @@ async fn main() -> io::Result<()> {
           .route(web::post().to(insert_data)),
       )
   })
-  .bind("127.0.0.1:8080")?
+  .bind("0.0.0.0:8080")?
   .run()
   .await
 }

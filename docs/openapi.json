@@ -14,12 +14,36 @@
     }
   ],
   "paths": {
+    "/streams": {
+      "get": {
+        "summary": "List streams",
+        "operationId": "listStreams",
+        "tags": [
+          "streams"
+        ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Stream"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/streams/{key}/data": {
       "get": {
         "summary": "List logged data for stream",
         "operationId": "listData",
         "tags": [
-          "streams"
+          "data"
         ],
         "parameters": [
           {
@@ -73,7 +97,7 @@
           }
         },
         "tags": [
-          "streams"
+          "data"
         ],
         "responses": {
           "200": {
@@ -85,6 +109,24 @@
   },
   "components": {
     "schemas": {
+      "Stream": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "key": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "string"
+          }
+        }
+      },
       "Data": {
         "type": "object",
         "properties": {
