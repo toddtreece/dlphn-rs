@@ -1,6 +1,6 @@
 # dolphin-rs
 
-a simple service that remembers data you send it. cause [it's smart][dolphin] and stuff.
+a humble service that remembers data you send it. cause [it's smart][dolphin] and stuff.
 
 ## install
 
