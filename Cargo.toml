@@ -1,6 +1,6 @@
 [package]
 name = "dlphn"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["Todd Treece <todd@uniontownlabs.org>"]
 description = "a humble data logger."
 documentation = "https://docs.rs/mqtt-packet"
@@ -10,6 +10,7 @@ keywords = ["data", "logger", "iot"]
 readme = "README.md"
 license = "MIT"
 edition = "2018"
+include = ["src/**/*", "Cargo.toml", "docs/*"]
 
 [dependencies]
 actix-rt = "1.0.0"

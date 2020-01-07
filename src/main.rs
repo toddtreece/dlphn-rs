@@ -66,7 +66,7 @@ async fn main() -> io::Result<()> {
   HttpServer::new(move || {
     App::new()
       .data(pool.clone())
-      .service(fs::Files::new("/api/v1/docs", "src/docs").index_file("index.html"))
+      .service(fs::Files::new("/api/v1/docs", "docs").index_file("index.html"))
       .service(web::resource("/api/v1/streams").route(web::get().to(list_streams)))
       .service(
         web::resource("/api/v1/streams/{key}/data")
