@@ -1,4 +1,4 @@
-# dlphn-rs
+# dolphin-rs
 
 a humble service that remembers data you send it. cause [it's smart][dolphin] and stuff.
 
