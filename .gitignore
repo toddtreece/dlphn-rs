@@ -2,3 +2,6 @@
 **/*.rs.bk
 *.db
 .DS_Store
+ui/build
+ui/node_modules
+ui/src/client/.openapi-generator*

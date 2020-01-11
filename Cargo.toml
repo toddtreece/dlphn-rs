@@ -9,7 +9,7 @@ keywords = ["data", "logger", "iot"]
 readme = "README.md"
 license = "MIT"
 edition = "2018"
-include = ["src/**/*", "Cargo.toml", "docs/*"]
+include = ["src/**/*", "Cargo.toml", "docs/**/*", "ui/build/**"]
 
 [dependencies]
 actix-rt = "1.0.0"

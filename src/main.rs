@@ -48,10 +48,7 @@ async fn insert_data(
 }
 
 async fn p404() -> Result<fs::NamedFile, WebError> {
-  Ok(
-    fs::NamedFile::open("src/ui/build/index.html")?
-      .set_status_code(actix_web::http::StatusCode::OK),
-  )
+  Ok(fs::NamedFile::open("ui/build/index.html")?.set_status_code(actix_web::http::StatusCode::OK))
 }
 
 #[actix_rt::main]
@@ -80,7 +77,7 @@ async fn main() -> io::Result<()> {
           .route(web::get().to(list_data))
           .route(web::post().to(insert_data)),
       )
-      .service(fs::Files::new("/", "src/ui/build").index_file("index.html"))
+      .service(fs::Files::new("/", "ui/build").index_file("index.html"))
       .default_service(web::resource("").route(web::get().to(p404)))
   })
   .bind("0.0.0.0:8080")?
