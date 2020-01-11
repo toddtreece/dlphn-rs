@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "version": "0.1.0",
-    "title": "dolphin-rs",
+    "title": "dlphn-rs",
     "description": "A simple data logging server written in Rust.",
     "license": {
       "name": "MIT"
@@ -18,9 +18,7 @@
       "get": {
         "summary": "List streams",
         "operationId": "listStreams",
-        "tags": [
-          "streams"
-        ],
+        "tags": ["streams"],
         "responses": {
           "200": {
             "description": "Expected response to a valid request",
@@ -42,9 +40,7 @@
       "get": {
         "summary": "List logged data for stream",
         "operationId": "listData",
-        "tags": [
-          "data"
-        ],
+        "tags": ["data"],
         "parameters": [
           {
             "name": "key",
@@ -96,9 +92,7 @@
             }
           }
         },
-        "tags": [
-          "data"
-        ],
+        "tags": ["data"],
         "responses": {
           "200": {
             "description": "Null response"
@@ -135,7 +129,10 @@
             "format": "int64"
           },
           "payload": {
-            "type": "object"
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
           },
           "created": {
             "type": "string"

@@ -1,26 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>dlphn API docs</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css" />
+  </head>
 
-<head>
-    <meta charset="utf-8">
-    <title>dolphin-rs docs</title>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css">
-</head>
-
-<body>
+  <body>
     <div id="swagger-ui"></div>
     <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
 
     <script>
-        const ui = SwaggerUIBundle({
-            url: "/api/v1/docs/openapi.json",
-            dom_id: '#swagger-ui',
-            presets: [
-                SwaggerUIBundle.presets.apis
-            ],
-            layout: "BaseLayout"
-        })
+      const ui = SwaggerUIBundle({
+        url: '/api/v1/docs/openapi.json',
+        dom_id: '#swagger-ui',
+        presets: [SwaggerUIBundle.presets.apis],
+        layout: 'BaseLayout'
+      });
     </script>
-</body>
-
+  </body>
 </html>

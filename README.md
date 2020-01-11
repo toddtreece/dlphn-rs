@@ -1,4 +1,4 @@
-# dolphin-rs
+# dlphn-rs
 
 a humble service that remembers data you send it. cause [it's smart][dolphin] and stuff.
 
@@ -41,8 +41,8 @@ $ dlphn
           █████████████████████▄
          ▐████████▀▀▀
           ▀
-                                         dolphin-rs
- 
+                                         dlphn-rs
+
 [dlphn] listening on 127.0.0.1:8080
 [dlphn] API docs available at: http://127.0.0.1:8080/api/v1/docs
 ```
@@ -51,4 +51,5 @@ $ dlphn
 [rustup]: https://rustup.rs/
 
 ## license
+
 copyright (c) 2020 todd treece. licensed under the MIT license.
