@@ -36,7 +36,7 @@ async fn list_data(
 async fn insert_data(
   db: web::Data<Pool>,
   path: web::Path<(String)>,
-  payload: web::Json<serde_json::Value>,
+  payload: web::Json<serde_json::Map<String, serde_json::Value>>,
 ) -> Result<HttpResponse, WebError> {
   let pool = db.clone();
 
@@ -47,9 +47,16 @@ async fn insert_data(
   Ok(HttpResponse::Ok().finish())
 }
 
+async fn p404() -> Result<fs::NamedFile, WebError> {
+  Ok(
+    fs::NamedFile::open("src/ui/build/index.html")?
+      .set_status_code(actix_web::http::StatusCode::OK),
+  )
+}
+
 #[actix_rt::main]
 async fn main() -> io::Result<()> {
-  let manager = SqliteConnectionManager::file("phant.db");
+  let manager = SqliteConnectionManager::file("dlphn.db");
   let pool = Pool::new(manager).unwrap();
 
   // create the table if needed
@@ -58,9 +65,9 @@ async fn main() -> io::Result<()> {
   // Start http server
   dolphin::logo();
   let ip = local_ip::get().unwrap();
-  println!("[dolphin] listening on {}:8080", ip.to_string());
+  println!("[dlphn] UI available at http://{}:8080", ip.to_string());
   println!(
-    "[dolphin] API docs available at: http://{}:8080/api/v1/docs",
+    "[dlphn] API docs available at: http://{}:8080/api/v1/docs",
     ip.to_string()
   );
   HttpServer::new(move || {
@@ -73,6 +80,8 @@ async fn main() -> io::Result<()> {
           .route(web::get().to(list_data))
           .route(web::post().to(insert_data)),
       )
+      .service(fs::Files::new("/", "src/ui/build").index_file("index.html"))
+      .default_service(web::resource("").route(web::get().to(p404)))
   })
   .bind("0.0.0.0:8080")?
   .run()
