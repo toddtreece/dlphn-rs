@@ -1,6 +1,6 @@
 [package]
 name = "dlphn"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["Todd Treece <todd@uniontownlabs.org>"]
 description = "a humble data logger."
 homepage = "https://github.com/toddtreece/dlphn-rs"
@@ -9,12 +9,11 @@ keywords = ["data", "logger", "iot"]
 readme = "README.md"
 license = "MIT"
 edition = "2018"
-include = ["src/**/*", "Cargo.toml", "docs/**/*", "ui/build/**"]
+include = ["src/**/*", "Cargo.toml"]
 
 [dependencies]
 actix-rt = "1.0.0"
 actix-web = "2.0.0"
-actix-files = "0.2.1"
 failure = "0.1.1"
 futures = "0.3.1"
 r2d2 = "0.8.2"
@@ -24,6 +23,8 @@ serde_derive = "1.0"
 serde_json = "1.0.44"
 chrono = { version = "0.4.10", features = ["serde"] }
 local-ip = "0.1"
+rust-embed="5.2.0"
+mime_guess =  "2"
 
 [dependencies.rusqlite]
 version = "0.21.0"
