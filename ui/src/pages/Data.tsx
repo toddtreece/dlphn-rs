@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Header } from 'semantic-ui-react';
-import { match } from 'react-router-dom';
+import { Table, Header, Popup } from 'semantic-ui-react';
+import { match, Link } from 'react-router-dom';
 import { History } from 'history';
+import moment from 'moment';
 
 import { ApplicationState } from '../store';
 import { Data } from '../client';
@@ -33,10 +34,12 @@ export const DataPage: React.FC<MainProps> = props => {
 
   return (
     <>
-      <Header as="h1">dlphn.streams.{params.key}</Header>
+      <Header as="h1">
+        dlphn.<Link to="/streams">streams</Link>.{params.key}
+      </Header>
       {!loading && data.length === 0 && <div>not found.</div>}
       {data.length > 0 && (
-        <Table celled selectable>
+        <Table celled fixed>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>created</Table.HeaderCell>
@@ -49,7 +52,14 @@ export const DataPage: React.FC<MainProps> = props => {
           <Table.Body>
             {data.map((datum: Data) => (
               <Table.Row key={datum.id} onClick={() => props.history.push(`/streams/${params.key}/data`)}>
-                <Table.Cell>{datum.created}</Table.Cell>
+                <Table.Cell>
+                  <Popup
+                    size="mini"
+                    content={datum.created}
+                    trigger={<div>{moment(datum.created).fromNow()}</div>}
+                    inverted
+                  />
+                </Table.Cell>
                 {payloadColumns.map((column: string) => {
                   const payload = datum.payload || {};
                   return <Table.Cell>{payload[column] || ''}</Table.Cell>;

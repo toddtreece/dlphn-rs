@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Header } from 'semantic-ui-react';
+import { Table, Header, Popup } from 'semantic-ui-react';
 import { History } from 'history';
+import moment from 'moment';
 
 import { ApplicationState } from '../store';
 import { Stream } from '../client';
@@ -22,7 +23,7 @@ export const StreamsPage: React.FC<MainProps> = ({ history }) => {
   return (
     <>
       <Header as="h1">dlphn.streams</Header>
-      <Table celled selectable>
+      <Table celled selectable fixed>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>id</Table.HeaderCell>
@@ -42,8 +43,22 @@ export const StreamsPage: React.FC<MainProps> = ({ history }) => {
             <Table.Row key={stream.id} onClick={() => history.push(`/streams/${stream.key}/data`)}>
               <Table.Cell>{stream.id}</Table.Cell>
               <Table.Cell>{stream.key}</Table.Cell>
-              <Table.Cell>{stream.created}</Table.Cell>
-              <Table.Cell>{stream.updated}</Table.Cell>
+              <Table.Cell>
+                <Popup
+                  size="mini"
+                  content={stream.created}
+                  trigger={<div>{moment(stream.created).fromNow()}</div>}
+                  inverted
+                />
+              </Table.Cell>
+              <Table.Cell>
+                <Popup
+                  size="mini"
+                  content={stream.updated}
+                  trigger={<div>{moment(stream.updated).fromNow()}</div>}
+                  inverted
+                />
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
