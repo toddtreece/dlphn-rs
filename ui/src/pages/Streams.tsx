@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Header, Popup } from 'semantic-ui-react';
+import { Table, Header, Popup, Label } from 'semantic-ui-react';
 import { History } from 'history';
 import moment from 'moment';
 
@@ -23,39 +23,36 @@ export const StreamsPage: React.FC<MainProps> = ({ history }) => {
   return (
     <>
       <Header as="h1">dlphn.streams</Header>
-      <Table celled selectable fixed>
+      <Table celled selectable>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>id</Table.HeaderCell>
             <Table.HeaderCell>key</Table.HeaderCell>
-            <Table.HeaderCell>created</Table.HeaderCell>
-            <Table.HeaderCell>updated</Table.HeaderCell>
+            <Table.HeaderCell>last payload</Table.HeaderCell>
+            <Table.HeaderCell>last insert</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {loading && data.length === 0 && (
+          {loading && (
             <Table.Row>
-              <Table.Cell colSpan={4}>loading...</Table.Cell>
+              <Table.Cell colSpan={3}>loading...</Table.Cell>
             </Table.Row>
           )}
           {data.map((stream: Stream) => (
             <Table.Row key={stream.id} onClick={() => history.push(`/streams/${stream.key}/data`)}>
-              <Table.Cell>{stream.id}</Table.Cell>
               <Table.Cell>{stream.key}</Table.Cell>
               <Table.Cell>
-                <Popup
-                  size="mini"
-                  content={stream.created}
-                  trigger={<div>{moment(stream.created).fromNow()}</div>}
-                  inverted
-                />
+                <Label color="blue">
+                  {Object.entries(stream.lastPayload || {})
+                    .map(([k, v]) => `${k}: ${v}`)
+                    .join(', ')}
+                </Label>
               </Table.Cell>
               <Table.Cell>
                 <Popup
                   size="mini"
-                  content={stream.updated}
-                  trigger={<div>{moment(stream.updated).fromNow()}</div>}
+                  content={stream.lastInsert}
+                  trigger={<span>{moment(stream.lastInsert).fromNow()}</span>}
                   inverted
                 />
               </Table.Cell>

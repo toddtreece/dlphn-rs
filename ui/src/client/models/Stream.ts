@@ -43,6 +43,18 @@ export interface Stream {
      * @memberof Stream
      */
     updated?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Stream
+     */
+    readonly lastInsert?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof Stream
+     */
+    readonly lastPayload?: { [key: string]: string; };
 }
 
 export function StreamFromJSON(json: any): Stream {
@@ -59,6 +71,8 @@ export function StreamFromJSONTyped(json: any, ignoreDiscriminator: boolean): St
         'key': !exists(json, 'key') ? undefined : json['key'],
         'created': !exists(json, 'created') ? undefined : json['created'],
         'updated': !exists(json, 'updated') ? undefined : json['updated'],
+        'lastInsert': !exists(json, 'last_insert') ? undefined : json['last_insert'],
+        'lastPayload': !exists(json, 'last_payload') ? undefined : json['last_payload'],
     };
 }
 

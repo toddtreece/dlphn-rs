@@ -36,7 +36,7 @@
     "typescript": "^3.7.4"
   },
   "scripts": {
-    "generate-client": "docker run --rm -v ${PWD}/src:/out -v ${PWD}/../../docs:/in openapitools/openapi-generator-cli generate -i /in/openapi.json -g typescript-fetch -o /out/client",
+    "generate-client": "docker run --rm -v ${PWD}/src:/out -v ${PWD}/../docs:/in openapitools/openapi-generator-cli generate -i /in/openapi.json -g typescript-fetch -o /out/client",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

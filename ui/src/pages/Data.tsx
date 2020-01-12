@@ -29,6 +29,7 @@ export const DataPage: React.FC<MainProps> = props => {
     dispatch(fetchRequest(params.key));
   }, [dispatch]);
 
+  // TODO tjt: move data formatting to store
   const payloadColumnsSet = new Set(data.map((datum: Data) => Object.keys(datum.payload || {})).flat());
   const payloadColumns = [...payloadColumnsSet].sort();
 
