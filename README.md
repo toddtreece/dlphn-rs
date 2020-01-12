@@ -1,10 +1,12 @@
 # dlphn-rs
 
-a humble service that remembers data you send it. cause [it's smart][dolphin] and stuff.
+a humble sensor data logger that remembers the data you send it. cause [it's smart][dolphin] and stuff.
 
 ## install
 
-use [rustup] to install the rust toolchain, and then run:
+check the [releases] for a binary build that matches your platform.
+
+in order to build the latest release from source, you will need to use [rustup] to install the rust toolchain, and then run:
 
 ```sh
 $ cargo install dlphn
@@ -49,12 +51,13 @@ $ dlphn
 
 [dolphin]: https://www.nationalgeographic.com/news/2013/8/130806-dolphins-memories-animals-science-longest/
 [rustup]: https://rustup.rs/
+[releases]: https://github.com/toddtreece/dlphn-rs/releases
 
 ## benchmarks
 
 ### post
 
-~850 inserts per second. results from 2017 intel nuc 3.5GHz i7-7567U kaby lake:
+~850 inserts per second via the REST API. results from 2017 intel nuc 3.5GHz i7-7567U kaby lake:
 
 ```sh
 $ make bench
