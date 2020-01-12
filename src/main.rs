@@ -1,12 +1,10 @@
-#[macro_use]
-extern crate rust_embed;
-
 use actix_web::body::Body;
 use actix_web::{web, App, Error as WebError, HttpRequest, HttpResponse, HttpServer};
 use futures::TryFutureExt;
 use local_ip;
 use mime_guess::from_path;
 use r2d2_sqlite::{self, SqliteConnectionManager};
+use rust_embed::RustEmbed;
 use serde_json;
 use std::borrow::Cow;
 use std::io;
@@ -60,8 +58,8 @@ async fn insert_data(
   Ok(HttpResponse::Ok().finish())
 }
 
-fn handle_ui_file(path: &str) -> HttpResponse {
-  match UIAsset::get(path) {
+fn handle_static_file<E: RustEmbed>(path: &str) -> HttpResponse {
+  match E::get(path) {
     Some(content) => {
       let body: Body = match content {
         Cow::Borrowed(bytes) => bytes.into(),
@@ -71,37 +69,22 @@ fn handle_ui_file(path: &str) -> HttpResponse {
         .content_type(from_path(path).first_or_octet_stream().as_ref())
         .body(body)
     }
-    None => handle_ui_file("index.html"),
-  }
-}
-
-fn handle_doc_file(path: &str) -> HttpResponse {
-  match DocAsset::get(path) {
-    Some(content) => {
-      let body: Body = match content {
-        Cow::Borrowed(bytes) => bytes.into(),
-        Cow::Owned(bytes) => bytes.into(),
-      };
-      HttpResponse::Ok()
-        .content_type(from_path(path).first_or_octet_stream().as_ref())
-        .body(body)
-    }
-    None => HttpResponse::NotFound().body("404 Not Found"),
+    None => handle_static_file::<UIAsset>("index.html"),
   }
 }
 
 fn ui(req: HttpRequest) -> HttpResponse {
   let path = &req.path()["/".len()..];
-  handle_ui_file(path)
+  handle_static_file::<UIAsset>(path)
 }
 
 fn docs_index(_req: HttpRequest) -> HttpResponse {
-  handle_doc_file("index.html")
+  handle_static_file::<DocAsset>("index.html")
 }
 
 fn docs(req: HttpRequest) -> HttpResponse {
   let path = &req.path()["/api/v1/docs/".len()..];
-  handle_doc_file(path)
+  handle_static_file::<DocAsset>(path)
 }
 
 #[actix_rt::main]
