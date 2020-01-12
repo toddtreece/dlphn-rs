@@ -15,6 +15,8 @@ pub struct Stream {
   key: String,
   created: DateTime<Utc>,
   updated: DateTime<Utc>,
+  last_insert: DateTime<Utc>,
+  last_payload: Value,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -47,7 +49,19 @@ pub fn create_table(conn: Connection) -> Result<(), Error> {
 }
 
 pub fn list_streams(conn: Connection) -> Result<Vec<Stream>, Error> {
-  let mut stmt = conn.prepare("SELECT id, key, created, updated FROM streams")?;
+  let mut stmt = conn.prepare(
+    "SELECT 
+      streams.id, 
+      streams.key, 
+      streams.created,
+      streams.updated,
+      max(data.updated) as last_insert,
+      max(data.payload) as last_payload
+    FROM streams
+    INNER JOIN data on data.stream_id = streams.id
+    GROUP BY streams.id
+    ORDER BY data.created DESC, data.id DESC",
+  )?;
 
   let results = stmt
     .query_map(NO_PARAMS, |row| {
@@ -56,6 +70,8 @@ pub fn list_streams(conn: Connection) -> Result<Vec<Stream>, Error> {
         key: row.get(1)?,
         created: row.get(2)?,
         updated: row.get(3)?,
+        last_insert: row.get(4)?,
+        last_payload: row.get(5)?,
       })
     })
     .and_then(|mapped_rows| Ok(mapped_rows.map(|row| row.unwrap()).collect::<Vec<Stream>>()))?;
@@ -70,7 +86,7 @@ pub fn list_data(conn: Connection, key: String) -> Result<Vec<Data>, Error> {
     FROM data 
     INNER JOIN streams ON streams.id = data.stream_id 
     WHERE streams.key = ?
-    ORDER BY data.updated DESC, data.id DESC",
+    ORDER BY data.created DESC, data.id DESC",
   )?;
 
   let results = stmt

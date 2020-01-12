@@ -118,6 +118,17 @@
           },
           "updated": {
             "type": "string"
+          },
+          "last_insert": {
+            "type": "string",
+            "readOnly": true
+          },
+          "last_payload": {
+            "type": "object",
+            "readOnly": true,
+            "additionalProperties": {
+              "type": "string"
+            }
           }
         }
       },
