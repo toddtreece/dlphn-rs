@@ -1,6 +1,6 @@
 [package]
 name = "dlphn"
-version = "0.3.1"
+version = "0.4.0"
 authors = ["Todd Treece <todd@uniontownlabs.org>"]
 description = "a humble sensor data logger."
 homepage = "https://github.com/toddtreece/dlphn-rs"
@@ -25,6 +25,7 @@ chrono = { version = "0.4.10", features = ["serde"] }
 local-ip = "0.1"
 rust-embed="5.2.0"
 mime_guess =  "2"
+tokio = "0.2.9"
 
 [dependencies.rusqlite]
 version = "0.21.0"
