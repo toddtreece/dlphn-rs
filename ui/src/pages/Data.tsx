@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import { ApplicationState } from '../store';
 import { Data } from '../client';
-import { fetchRequest } from '../store/data/actions';
+import { fetchRequest, startSubscription, endSubscription } from '../store/data/actions';
 
 interface RouteInfo {
   key: string;
@@ -27,6 +27,10 @@ export const DataPage: React.FC<MainProps> = props => {
 
   useEffect(() => {
     dispatch(fetchRequest(params.key));
+    dispatch(startSubscription(params.key));
+    return () => {
+      dispatch(endSubscription(params.key));
+    };
   }, [dispatch]);
 
   // TODO tjt: move data formatting to store
