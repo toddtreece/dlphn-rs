@@ -1,5 +1,5 @@
 OUT = ./target
-VERSION = 0.4.0
+VERSION = 0.5.0
 
 WIN := x86_64-pc-windows-gnu
 LINUX := armv7-unknown-linux-gnueabihf arm-unknown-linux-gnueabihf x86_64-unknown-linux-gnu 
@@ -9,10 +9,9 @@ CROSS := $(addprefix $(OUT)/, $(addsuffix /release/dlphn, $(ARCH)))
 
 TAR_ARCH := $(LINUX) $(MAC)
 TAR := $(addprefix dlphn-$(VERSION)-, $(addsuffix .tar.gz, $(TAR_ARCH)))
-ZIP = dlphn-$(VERSION)-$(WIN).zip
+ZIP := $(addprefix dlphn-$(VERSION)-, $(addsuffix .zip, $(WIN)))
 
-release: ui $(ZIP) $(TAR)
-all: ui $(CROSS)
+all: ui $(ZIP) $(TAR)
 
 ui-deps:
 	@cd ui && yarn
@@ -35,6 +34,11 @@ $(ZIP): dlphn-$(VERSION)-%.zip: $(CROSS)
 
 $(TAR): dlphn-$(VERSION)-%.tar.gz: $(CROSS)
 	@tar czvf $@ ./target/$*/release/dlphn
+
+clean:
+	@cargo clean
+	@rm dlphn-$(VERSION)-*.zip
+	@rm dlphn-$(VERSION)-*.tar.gz
 
 bench:
 	wrk -t20 -c200 -d 30s -s bench/post.lua http://localhost:8080/api/v1/streams/bench/data
