@@ -9,16 +9,19 @@ CROSS := $(addprefix $(OUT)/, $(addsuffix /release/dlphn, $(ARCH)))
 
 TAR_ARCH := $(LINUX) $(MAC)
 TAR := $(addprefix dlphn-$(VERSION)-, $(addsuffix .tar.gz, $(TAR_ARCH)))
-ZIP := $(addprefix dlphn-$(VERSION)-, $(addsuffix .zip, $(WIN)))
+ZIP = dlphn-$(VERSION)-$(WIN).zip
 
-all: ui $(ZIP) $(TAR)
+release: ui $(ZIP) $(TAR)
+all: ui $(CROSS)
 
 ui-deps:
 	@cd ui && yarn
 
 ui-client: ui-deps
 	@echo "generating dlphn typescript client"
-	@cd ui && yarn generate-client
+	@docker run --rm -v ${PWD}/ui/src:/out -v ${PWD}/docs:/in openapitools/openapi-generator-cli generate -i /in/openapi.json -g typescript-fetch -o /out/client
+	@rm -rf ui/src/client/.openapi-generator
+	@rm -rf ui/src/client/.openapi-generator-ignore
 
 ui: ui-deps ui-client
 	@echo "building dlphn ui"
@@ -36,4 +39,4 @@ $(TAR): dlphn-$(VERSION)-%.tar.gz: $(CROSS)
 bench:
 	wrk -t20 -c200 -d 30s -s bench/post.lua http://localhost:8080/api/v1/streams/bench/data
 
-.PHONY: bench ui ui-client ui-deps release
+.PHONY: bench ui ui-client ui-deps release all
