@@ -9,9 +9,13 @@ export enum DataActionTypes {
   END_SUBSCRIPTION = '@@data/END_SUBSCRIPTION'
 }
 
+export type DataPayload = { [key: string]: string | Date | Number };
+
 export interface DataState {
   readonly key: string;
   readonly loading: boolean;
+  readonly columns: string[];
   readonly data: Data[];
+  readonly chart: DataPayload[];
   readonly errors?: string;
 }

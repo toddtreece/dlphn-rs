@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Header, Popup, Label } from 'semantic-ui-react';
+import { Table, Breadcrumb, Popup, Label } from 'semantic-ui-react';
 import { History } from 'history';
 import moment from 'moment';
 
@@ -22,7 +22,9 @@ export const StreamsPage: React.FC<MainProps> = ({ history }) => {
 
   return (
     <>
-      <Header as="h1">dlphn.streams</Header>
+      <Breadcrumb size="big">
+        <Breadcrumb.Section>Streams</Breadcrumb.Section>
+      </Breadcrumb>
       <Table celled selectable>
         <Table.Header>
           <Table.Row>

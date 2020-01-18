@@ -1,6 +1,6 @@
 [package]
 name = "dlphn"
-version = "0.4.0"
+version = "0.5.0"
 authors = ["Todd Treece <todd@uniontownlabs.org>"]
 description = "a humble sensor data logger."
 homepage = "https://github.com/toddtreece/dlphn-rs"
