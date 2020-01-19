@@ -2,6 +2,10 @@
 
 a humble sensor data logger that remembers the data you send it. cause [it's smart][dolphin] and stuff.
 
+the api is written in rust using actix-web. the ui is written in typescript using react and redux.
+
+![ui](docs/new_column.gif)
+
 ## install
 
 check the [releases] for a binary build that matches your platform.

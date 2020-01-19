@@ -30,10 +30,10 @@ $(CROSS): $(OUT)/%/release/dlphn:
 	cross build --release --target=$*
 
 $(ZIP): dlphn-$(VERSION)-%.zip: $(CROSS)
-	@zip $@ ./target/$*/release/dlphn.exe
+	@zip -j $@ ./target/$*/release/dlphn.exe
 
 $(TAR): dlphn-$(VERSION)-%.tar.gz: $(CROSS)
-	@tar czvf $@ ./target/$*/release/dlphn
+	@tar czvf $@ -C ./target/$*/release dlphn
 
 clean:
 	@cargo clean
