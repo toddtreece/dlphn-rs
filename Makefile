@@ -41,6 +41,6 @@ clean:
 	@rm dlphn-$(VERSION)-*.tar.gz
 
 bench:
-	wrk -t20 -c200 -d 30s -s bench/post.lua http://localhost:8080/api/v1/streams/bench/data
+	wrk -t10 -c100 -d 30s -s bench/post.lua http://localhost:8080/api/v1/streams/bench/data
 
 .PHONY: bench ui ui-client ui-deps release all

@@ -32,7 +32,8 @@ pub fn create_table(conn: Connection) -> Result<(), Error> {
        created         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
        updated         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
        FOREIGN KEY(stream_id) REFERENCES streams(id)
-    );",
+    );
+    PRAGMA synchronous = OFF;",
   )?;
 
   Ok(())
@@ -93,13 +94,22 @@ pub fn list_data(conn: Connection, key: String) -> Result<Vec<Data>, Error> {
   Ok(results)
 }
 
-pub fn insert_data(conn: Connection, key: String, data: Map<String, Value>) -> Result<i64, Error> {
-  conn.execute("INSERT OR IGNORE INTO streams (key) VALUES (?)", &[&key])?;
+pub fn insert_data(
+  mut conn: Connection,
+  key: String,
+  data: Map<String, Value>,
+) -> Result<(), Error> {
+  let tx = conn.transaction()?;
 
-  let mut stmt = conn.prepare(
+  tx.execute("INSERT OR IGNORE INTO streams (key) VALUES (?)", &[&key])?;
+
+  tx.execute(
     "INSERT INTO data (payload, stream_id)
-    VALUES (?, (SELECT streams.id FROM streams WHERE streams.key = ?))",
+    SELECT ?, streams.id FROM streams WHERE streams.key = ?",
+    &[&Value::Object(data) as &dyn ToSql, &key],
   )?;
 
-  Ok(stmt.insert(&[&Value::Object(data) as &dyn ToSql, &key])?)
+  tx.commit()?;
+
+  Ok(())
 }
