@@ -1,5 +1,5 @@
 OUT = ./target
-VERSION = 0.5.0
+VERSION = 0.5.1
 
 WIN := x86_64-pc-windows-gnu
 LINUX := armv7-unknown-linux-gnueabihf arm-unknown-linux-gnueabihf x86_64-unknown-linux-gnu 

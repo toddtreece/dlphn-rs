@@ -1,11 +1,11 @@
 [package]
 name = "dlphn"
-version = "0.5.0"
+version = "0.5.1"
 authors = ["Todd Treece <todd@uniontownlabs.org>"]
-description = "a humble sensor data logger."
+description = "a humble sensor data logger with a bundled react UI."
 homepage = "https://github.com/toddtreece/dlphn-rs"
 repository = "https://github.com/toddtreece/dlphn-rs"
-keywords = ["data", "logger", "iot"]
+keywords = ["data", "logger", "iot", "react"]
 readme = "README.md"
 license = "MIT"
 edition = "2018"
